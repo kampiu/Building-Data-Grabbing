@@ -1,0 +1,26 @@
+{
+  "name": "loupan",
+  "version": "1.0.0",
+  "description": "loupan info",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "KAM",
+  "license": "ISC",
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "crypto": "^1.0.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "iconv-lite": "^0.4.24",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.5",
+    "request": "^2.88.0",
+    "sequelize": "^4.43.0"
+  },
+  "dependencies": {
+    "sequelize-cli": "^5.4.0"
+  }
+}
