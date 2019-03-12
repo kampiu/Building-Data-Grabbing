@@ -30,23 +30,51 @@ FrameModel.belongsTo(BuildModel, { foreignKey: 'building_id',targetKey: 'id' });
 let cityId = 441900;        // => 需要抓取城市的ID
 let page = 0;               // => 分页
 let limit = 20;             // => 分页中的每一页的数量
+let canLoad = true
 // 获取到的数据信息
+let buildList = []
+let buildLen = 0
+let buildIndex = 0
 
 const getBuildList = () => {
-	let Url = `http://app.api.lianjia.com/newhouse/app/feed/index?city_id=${cityId}&has_filter=0&limit_count=${limit}&page=${page}&request_ts=${getTimestamps}`
+	let Url = `http://app.api.lianjia.com/newhouse/app/feed/index?city_id=${cityId}&has_filter=0&limit_count=${limit}&page=${page}&request_ts=${getTimestamps()}`
 	getData({
 		url: Url,
-		method: "POST",
+		method: "GET",
 		json: true,
-		headers: {
-			"content-type": "application/json",
-		},
-		body: JSON.stringify(requestData)
+		// headers: {
+		// 	"content-type": "application/json",
+		// },
+		// body: {
+		// 	city_id: cityId,
+		// 	limit_count: limit,
+		// 	page: page
+		// }
+	}).then(res => {
+		// console.log('获取到的数据', res)
+		buildList = res.data.resblock_list.list
+		buildLen = buildList.length
+		buildIndex = 0
+		// 做数据边界判断 是否有page下一页
+		if(buildLen < limit){
+			canLoad = false
+		}
+		// 每次抓取完第一页就重置build参数
+		start(buildList[buildIndex])
+	}).catch(err => {
+		console.log(`获取楼盘列表信息出错`, err)
 	})
 }
 
-
-const start = (param) => {
+const start = async (param) => {
+	console.log(buildList)
+	if(buildLen === buildIndex){
+		page++
+		if(canLoad){
+			getBuildList()
+		}
+		return console.log('抓取完一页数据')
+	}
 	let data = param
 	let insertData = {
 		name: data.title,
@@ -64,10 +92,13 @@ const start = (param) => {
 		house_type: data.house_type,        // 多对多关系模型  =>   房子类型  [办公楼，住宅]
 		decoration: data.decoration         // 多对多关系模型  =>   装修类型  [毛坯，精装]
 	}
+	const build = await BuildModel.create(insertData)
+	// parentId = article.dataValues.id
+	// buildIndex++
+	// start(buildList[buildIndex])
 }
 
-
-start()
+getBuildList()
 
 
 

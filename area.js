@@ -148,11 +148,11 @@ const saveData = async data => {
 	}
 	// console.log(data)
 	if(dataIndex === 0){
-    const article = await Area.create(data)
+        const article = await Area.create(data)
 		parentId = article.dataValues.id
 	}else{
-    data.parent_level = parentId
-    const article = await Area.create(data)
+	    data.parent_level = parentId
+	    const article = await Area.create(data)
 	}
 
 	// console.log('adadss', article.dataValues.id)
