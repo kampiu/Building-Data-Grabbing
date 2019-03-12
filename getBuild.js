@@ -27,6 +27,7 @@ FrameModel.belongsTo(BuildModel, { foreignKey: 'building_id',targetKey: 'id' });
 // Country.hasMany(City, {foreignKey: 'countryCode', sourceKey: 'isoCode'});
 // City.belongsTo(Country, {foreignKey: 'countryCode', targetKey: 'isoCode'});
 // 初始化抓取数据的信息
+let cityList = [310000, 441900, 442000, 440600, 469029, 110000, 320100, 350200, 532900, 210200, 120000, 442000, 370101, 210100, 330100, 440300, 440400, 320500, 500000, 430100, ]
 let cityId = 441900;        // => 需要抓取城市的ID
 let page = 0;               // => 分页
 let limit = 20;             // => 分页中的每一页的数量
@@ -67,11 +68,11 @@ const getBuildList = () => {
 }
 
 const start = async (param) => {
-	console.log(buildList)
 	if(buildLen === buildIndex){
 		page++
 		if(canLoad){
 			getBuildList()
+			return
 		}
 		return console.log('抓取完一页数据')
 	}
@@ -93,9 +94,10 @@ const start = async (param) => {
 		decoration: data.decoration         // 多对多关系模型  =>   装修类型  [毛坯，精装]
 	}
 	const build = await BuildModel.create(insertData)
-	// parentId = article.dataValues.id
-	// buildIndex++
-	// start(buildList[buildIndex])
+	let buildId = build.dataValues.id
+	console.log(`获取楼盘添加后返回的ID => ${buildId}`)
+	buildIndex++
+	start(buildList[buildIndex])
 }
 
 getBuildList()
