@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0d38997f-8535-49ee-a1aa-4dffddc4c085" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/getBuild.js" beforeDir="false" afterPath="$PROJECT_DIR$/getBuild.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/ajax.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/ajax.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/tool.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/tool.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -18,11 +15,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/getBuild.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="471">
-              <caret line="144" column="34" lean-forward="true" selection-start-line="144" selection-start-column="34" selection-end-line="144" selection-end-column="34" />
+            <state relative-caret-position="69">
+              <caret line="122" column="30" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="46">
+              <caret line="2" column="8" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -129,6 +135,7 @@
         <option value="$PROJECT_DIR$/util/ajax.js" />
         <option value="$PROJECT_DIR$/asd.js" />
         <option value="$PROJECT_DIR$/getBuild.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -138,7 +145,7 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-68" />
     <option name="y" value="307" />
     <option name="width" value="1455" />
@@ -158,11 +165,6 @@
             <path>
               <item name="building" type="b2602c69:ProjectViewProjectNode" />
               <item name="building" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="building" type="b2602c69:ProjectViewProjectNode" />
-              <item name="building" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -213,12 +215,12 @@
       <updated>1552291424059</updated>
       <workItem from="1552291427520" duration="11327000" />
       <workItem from="1552354060737" duration="5921000" />
-      <workItem from="1552541988899" duration="12116000" />
+      <workItem from="1552541988899" duration="12187000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29364000" />
+    <option name="totallyTimeSpent" value="29435000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -379,8 +381,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/getBuild.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="471">
-          <caret line="144" column="34" lean-forward="true" selection-start-line="144" selection-start-column="34" selection-end-line="144" selection-end-column="34" />
+        <state relative-caret-position="69">
+          <caret line="122" column="30" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" column="8" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
         </state>
       </provider>
     </entry>
