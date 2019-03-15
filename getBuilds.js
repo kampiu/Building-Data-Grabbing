@@ -122,18 +122,19 @@ const getDetail = (OBJ) => {
 			json: true
 		}).then(async res => {
 			// console.log(`返回的抓取到的详情页数据`, res, Url)
-			let _frame = res.data.data['frame']
-			for(let i = 0,len = _frame.length;i < len;i++) {
-				await createFrame(_frame[i], OBJ.build_id)
-			}
-			let banner = res.data.data.header_img.list
+			let banner = res.data.data.header_img
 			let bannerData = []
 			for(let i = 0,len = banner.length;i < len;i++){
-				await downloadImg(banner[i].image_size_url).then(async imgResult => {
+				await downloadImg(data.preload_detail_image[0].image_size_url).then(async imgResult => {
+					console.log(imgResult.imgUrl)
 					bannerData.push(imgResult.imgUr)
 				}).catch(() => {
 					console.log(`抓取楼盘的banner图片失败, 放弃一条数据 ----------`)
 				})
+			}
+			let _frame = res.data.data['frame']
+			for(let i = 0,len = _frame.length;i < len;i++) {
+				await createFrame(_frame[i], OBJ.build_id)
 			}
 			resolve()
 		}).catch(err => {
@@ -172,15 +173,10 @@ const createFrame = (_frameData, build_id) => {
 			});
 			resolve()
 		}).catch(() => {
-			console.log(`图片失败, 弃一条数据 ----------`)
+			console.log(`抓取图片失败, 放弃一条数据 ----------`)
 			reject()
 		})
 	})
-}
-
-const createTags = () => {
-	// 判断标签是否存在
-	let
 }
 
 getBuildList()

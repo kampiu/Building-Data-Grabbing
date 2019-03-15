@@ -26,12 +26,11 @@ const getData = ( requestData = { url: ''} ) => {
 }
 
 const downloadImg = (image) => {
-	console.log(image)
-	let imgObj = getImgType(image)
-	let img = imgObj.url
-	let imgType = imgObj.type === '' ? 'png' : imgObj.type
 	return new Promise((resolve, reject) => {
-		console.log(`抓取的图片路径为 => ${img}, ${image}`)
+		let imgObj = getImgType(image)
+		let img = imgObj.url
+		let imgType = imgObj.type === '' ? 'png' : imgObj.type
+		// console.log(`抓取的图片路径为 => ${img}, ${image}`)
 		http.get(img, (res) => {
 			let imgData = ''
 			res.setEncoding("binary")           //注意请求返回的编码
@@ -103,9 +102,41 @@ const getHouseDetail = ( requestData = { url: ''} ) => {
 	})
 }
 
+const downloadImgs = (image) => {
+	let imgObj = getImgType(image)
+	let img = imgObj.url
+	let imgType = imgObj.type === '' ? 'png' : imgObj.type
+	// console.log(`抓取的图片路径为 => ${img}, ${image}`)
+	http.get(img, (res) => {
+		let imgData = ''
+		res.setEncoding("binary")           //注意请求返回的编码
+		res.on('data', (chunk) => {
+			imgData += chunk
+		})
+		// 通过时间戳 + 盐后哈希获取图片名字
+		const hash = crypto.createHash('md5');
+		let str = randomStr(64);
+		hash.update(str);
+		let imgName = hash.digest('hex');
+
+		res.on('end', () => {
+			fs.writeFile("./imgData/" + imgName + "." + imgType, imgData, 'binary', (error) => {
+				if(error) {
+					console.log('下载失败')
+					return
+				}
+				return {
+					imgUrl: `imgData/${imgName}.${imgType}`
+				}
+			})
+		})
+	})
+}
+
 module.exports = {
 	getData,
 	downloadImg,
-	getHouseDetail
+	getHouseDetail,
+	downloadImgs
 }
 
