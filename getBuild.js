@@ -41,6 +41,8 @@ let buildList = [];
 let buildLen = 0;
 let buildIndex = 0;
 let tagsList = ['优惠楼盘', '免费停车', '品牌房企', '近地铁', '小户型', '现房', '密度低', '花园洋房', '车位充足', '绿化率高', '复式'];
+let decorationList = ['精装修', '毛坯'];
+let typeList = ['住宅', '别墅', '商业', '写字楼', '底商', '酒店式公寓'];
 
 const getBuildList = () => {
 	let Url = `http://app.api.lianjia.com/newhouse/app/feed/index?city_id=${cityList[cityIndex]}&has_filter=0&limit_count=${limit}&page=${page}&request_ts=${getTimestamps()}`
@@ -73,7 +75,7 @@ const start = async (param) => {
 		} else {
 			cityIndex++
 			if (cityIndex === cityLen) {      // 判断单个城市抓取完毕边界
-				return console.log('抓取完一页数据')
+				return console.log(`抓取完一个城市数据，爬取完的城市下标为： => ${cityIndex}`)
 			} else {
 				canLoad = true
 				page = 0
@@ -99,15 +101,21 @@ const start = async (param) => {
 			min_frame_area: data.min_frame_area,
 			max_frame_area: data.max_frame_area,
 			house_type: data.house_type,        // 多对多关系模型  =>   房子类型  [办公楼，住宅]
-			decoration: data.decoration         // 多对多关系模型  =>   装修类型  [毛坯，精装]
+			decoration: data.decoration,         // 多对多关系模型  =>   装修类型  [毛坯，精装]
+			browse_times: 0,
+			is_show: 1
 		}
 		// const build = await BuildModel.create(insertData);
 		// let buildId = build.dataValues.id;
 		// console.log(`获取楼盘添加后返回的ID => ${buildId}, 正在抓取的城市ID为 => ${cityList[cityIndex]}`)
 		getDetail(insertData).then(res => {
+			console.log(`-----------------------------`)
+			console.log()
 			console.log('抓取详情页数据成功!!!!!!!!!!!!!')
+			console.log()
+			console.log(`-----------------------------`)
 		}).catch(err => {
-			console.log(err, '抓取详情页数据成功-----------------')
+			console.log(err, '抓取详情页数据失败-----------------')
 		})
 		buildIndex++
 		start(buildList[buildIndex])
@@ -135,14 +143,17 @@ const getDetail = (OBJ) => {
 				})
 			}
 			OBJ.banner = JSON.stringify(bannerData)
-			// console.log(OBJ, 'bannerData')
 			// 添加楼盘数据
 			const build = await BuildModel.create(OBJ);
 			let buildId = build.dataValues.id;  // 添加楼盘产生楼盘ID  ->  下面步骤通用
-			// 添加楼盘类型 关系表
-			await createType(OBJ.house_type, buildId);
 			// 添加楼盘装修进度 关系表
-			await createDecoration(OBJ.decoration, buildId);
+			if(decorationList.includes(OBJ.decoration)){
+				await createDecoration(OBJ.decoration, buildId);
+			}
+			// 添加楼盘类型 关系表
+			if(typeList.includes(OBJ.house_type)){
+				await createType(OBJ.house_type, buildId);
+			}
 			// 抓取楼盘的户型  =>  需要先添加楼盘
 			let _frame = res.data.data['frame'];
 			for (let i = 0, len = _frame.length; i < len; i++) {
@@ -158,7 +169,7 @@ const getDetail = (OBJ) => {
 			resolve()
 		}).catch(err => {
 			reject()
-			console.log('抓取错误，详情 -----------')
+			console.log('抓取错误，详情 -----------' ,cityIndex)
 		})
 	})
 }
@@ -188,11 +199,12 @@ const createFrame = (_frameData, build_id) => {
 			FrameModel.create(frameData).then(() => {
 				resolve()
 			}).catch(() => {
+				console.log(`添加楼盘的户型出错， ${build_id}`)
 				reject()
 			});
 			// resolve()
 		}).catch(() => {
-			console.log(`抓取图片失败, 弃一条数据 ----------`)
+			console.log(`抓取图片失败, 弃一条数据 ----------,户型的展示图`)
 			reject()
 		})
 	})
@@ -209,7 +221,9 @@ const createTags = async (list, buildId) => {
 		tags_id: TAGS[0].dataValues.id,
 		build_id: buildId
 	}
-	await BuildTagsModel.create(BuildTagsData)
+	await BuildTagsModel.create(BuildTagsData).then(() => {
+		console.log()
+	}).catch(err => console.log(`楼盘的标签 tags 关系表添加出错， ${TAGS[0].dataValues.id} -------- ${tags} ------------- ${buildId}`))
 	// console.log(TAGS[0].dataValues.id, tags)
 }
 
@@ -222,7 +236,9 @@ const createType = async (type, buildId) => {
 		house_type_id: TAGS[0].dataValues.id,
 		build_id: buildId
 	}
-	await BuildTypeModel.create(BuildTypeData)
+	await BuildTypeModel.create(BuildTypeData).then(() => {
+		console.log()
+	}).catch(err => console.log(`楼盘的类型 type 关系表添加出错， ${TAGS[0].dataValues.id} -------- ${type} ------------- ${buildId}`))
 }
 
 const createDecoration = async (type, buildId) => {
@@ -234,7 +250,9 @@ const createDecoration = async (type, buildId) => {
 		decoration_id: TAGS[0].dataValues.id,
 		build_id: buildId
 	}
-	await BuildDecorationModel.create(BuildDecorationData)
+	await BuildDecorationModel.create(BuildDecorationData).then(() => {
+		console.log()
+	}).catch(err => console.log(`楼盘的装修 decoration 关系表添加出错， ${TAGS[0].dataValues.id} -------- ${type} ------------- ${buildId}`))
 }
 
 getBuildList()

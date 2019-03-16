@@ -65,6 +65,14 @@ const BuildModel = sequelize.define(
 		decoration: {
 			type: Sequelize.INTEGER(11),
 			allowNull: false
+		},
+		browse_times: {
+			type: Sequelize.INTEGER(11),
+			allowNull: false
+		},
+		is_show: {
+			type: Sequelize.INTEGER(11),
+			allowNull: false
 		}
 	}, {
 		underscored: true,

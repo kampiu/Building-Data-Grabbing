@@ -2,19 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0d38997f-8535-49ee-a1aa-4dffddc4c085" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/getBuild.js" beforeDir="false" afterPath="$PROJECT_DIR$/getBuild.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgData/054a9c097a1355660805927d00b8dc96.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/imgData/659d7b717daf5c98f40c560331becc4b.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/imgData/79efd82e724077fba617959cae47df0c.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/imgData/883c060aa758f7a6c49c8618b2556ad6.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/imgData/9aea162f06fa15207ecf2c94b3c4636f.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/areaModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/areaModel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/buildModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/buildModel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/frameModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/frameModel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/houseTypeModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/buildTypeModel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/tagsModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/tagsModel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/ajax.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/ajax.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -30,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/getBuild.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="22" column="10" lean-forward="true" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
+            <state relative-caret-position="556">
+              <caret line="105" column="19" selection-start-line="105" selection-start-column="19" selection-end-line="105" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -40,7 +34,16 @@
         <entry file="file://$PROJECT_DIR$/util/ajax.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-621">
-              <caret line="42" column="29" lean-forward="true" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
+              <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/buildModel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="552">
+              <caret line="72" column="15" selection-start-line="72" selection-start-column="8" selection-end-line="72" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -87,12 +90,12 @@
         <option value="$PROJECT_DIR$/model/decorationModel.js" />
         <option value="$PROJECT_DIR$/model/buildTagsModel.js" />
         <option value="$PROJECT_DIR$/model/areaModel.js" />
-        <option value="$PROJECT_DIR$/model/buildModel.js" />
         <option value="$PROJECT_DIR$/model/buildTypeModel.js" />
         <option value="$PROJECT_DIR$/model/frameModel.js" />
         <option value="$PROJECT_DIR$/model/tagsModel.js" />
-        <option value="$PROJECT_DIR$/getBuild.js" />
         <option value="$PROJECT_DIR$/util/ajax.js" />
+        <option value="$PROJECT_DIR$/model/buildModel.js" />
+        <option value="$PROJECT_DIR$/getBuild.js" />
       </list>
     </option>
   </component>
@@ -102,7 +105,7 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="244" />
     <option name="y" value="162" />
     <option name="width" value="1455" />
@@ -185,12 +188,12 @@
       <workItem from="1552354060737" duration="5921000" />
       <workItem from="1552541988899" duration="12211000" />
       <workItem from="1552611658385" duration="8414000" />
-      <workItem from="1552696217713" duration="8053000" />
+      <workItem from="1552696217713" duration="11291000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45926000" />
+    <option name="totallyTimeSpent" value="49164000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -335,9 +338,6 @@
     <entry file="file://$PROJECT_DIR$/model/areaModel.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/buildModel.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/buildTagsModel.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -370,14 +370,21 @@
     <entry file="file://$PROJECT_DIR$/util/ajax.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-621">
-          <caret line="42" column="29" lean-forward="true" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
+          <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/buildModel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="72" column="15" selection-start-line="72" selection-start-column="8" selection-end-line="72" selection-end-column="15" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/getBuild.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="22" column="10" lean-forward="true" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
+        <state relative-caret-position="556">
+          <caret line="105" column="19" selection-start-line="105" selection-start-column="19" selection-end-line="105" selection-end-column="19" />
         </state>
       </provider>
     </entry>
