@@ -1,10 +1,3 @@
-const http = require("http")
-const fs = require("fs")
-const cheerio = require("cheerio")
-const request = require("request")
-const iconv = require('iconv-lite')
-const https = require("https")
-const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const sequelize = require('./sequelize')
 

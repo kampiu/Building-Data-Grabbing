@@ -1,10 +1,3 @@
-const http = require("http")
-const fs = require("fs")
-const cheerio = require("cheerio")
-const request = require("request")
-const iconv = require('iconv-lite')
-const https = require("https")
-const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const sequelize = require('./sequelize')
 
@@ -17,11 +10,11 @@ const tagsModel = sequelize.define(
 			unique: true,
 			autoIncrement: true
 		},
-		name: {
+		tags: {
 			type: Sequelize.CHAR(20),
 			allowNull: false
 		},
-		name: {
+		title: {
 			type: Sequelize.CHAR(20),
 			allowNull: false
 		}

@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
 const sequelize = require('./sequelize')
 
-const HouseTypeModel = sequelize.define(
-	'rea_house_type',
+const DecorationModel = sequelize.define(
+	'rea_decoration',
 	{
 		id: {
 			type: Sequelize.INTEGER(11),
@@ -25,4 +25,4 @@ const HouseTypeModel = sequelize.define(
 	}
 )
 
-module.exports = HouseTypeModel
+module.exports = DecorationModel

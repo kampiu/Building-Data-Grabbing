@@ -8,33 +8,39 @@ const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const sequelize = require('./model/sequelize')
 // 导入工具类
-const { dateFormat, getTimestamps, fixInteger } = require('./util/tool')
-const { getData, downloadImg, getHouseDetail } = require('./util/ajax')
+const {dateFormat, getTimestamps, fixInteger} = require('./util/tool')
+const {getData, downloadImg, getHouseDetail} = require('./util/ajax')
 // 导入数据模型
 const AreaModel = require('./model/areaModel')
 const BuildModel = require('./model/buildModel')
 const FrameModel = require('./model/frameModel')
 const TagsModel = require('./model/tagsModel')
+const BuildTagsModel = require('./model/buildTagsModel')
+const BuildTypeModel = require('./model/buildTypeModel')
+const BuildDecorationModel = require('./model/buildDecorationModel')
+const HouseTypeModel = require('./model/houseTypeModel')
+const DecorationModel = require('./model/decorationModel')
 // 建立模型的关系
 // 建立一对多的模型关系  foreignKey 为定义表的外键    targetKey 为被关联的表的外键
-BuildModel.hasMany(FrameModel, { foreignKey: 'id', targetKey: 'building_id' });
-FrameModel.belongsTo(BuildModel, { foreignKey: 'building_id',targetKey: 'id' });
+BuildModel.hasMany(FrameModel, {foreignKey: 'id', targetKey: 'building_id'});
+FrameModel.belongsTo(BuildModel, {foreignKey: 'building_id', targetKey: 'id'});
 // const City = sequelize.define('city', { countryCode: Sequelize.STRING });
 // const Country = sequelize.define('country', { isoCode: Sequelize.STRING });
 // Country.hasMany(City, {foreignKey: 'countryCode', sourceKey: 'isoCode'});
 // City.belongsTo(Country, {foreignKey: 'countryCode', targetKey: 'isoCode'});
 // 初始化抓取数据的信息
-let cityList = [310000, 441900, 442000, 440600, 469029, 110000, 320100, 350200, 532900, 210200, 120000, 442000, 370101, 210100, 330100, 440300, 440400, 320500, 500000, 430100, ];
+let cityList = [310000, 441900, 442000, 440600, 469029, 110000, 320100, 350200, 532900, 210200, 120000, 442000, 370101, 210100, 330100, 440300, 440400, 320500, 500000, 430100,];
 let cityIndex = 0;
 let cityLen = cityList.length;
 let cityId = 441900;        // => 需要抓取城市的ID
 let page = 0;               // => 分页
 let limit = 20;             // => 分页中的每一页的数量
-let canLoad = true
+let canLoad = true;
 // 获取到的数据信息
-let buildList = []
-let buildLen = 0
-let buildIndex = 0
+let buildList = [];
+let buildLen = 0;
+let buildIndex = 0;
+let tagsList = ['优惠楼盘', '免费停车', '品牌房企', '近地铁', '小户型', '现房', '密度低', '花园洋房', '车位充足', '绿化率高', '复式'];
 
 const getBuildList = () => {
 	let Url = `http://app.api.lianjia.com/newhouse/app/feed/index?city_id=${cityList[cityIndex]}&has_filter=0&limit_count=${limit}&page=${page}&request_ts=${getTimestamps()}`
@@ -48,7 +54,7 @@ const getBuildList = () => {
 		buildLen = buildList.length
 		buildIndex = 0
 		// 做数据边界判断 是否有page下一页
-		if(buildLen < limit){
+		if (buildLen < limit) {
 			canLoad = false
 		}
 		// 每次抓取完第一页就重置build参数
@@ -59,16 +65,16 @@ const getBuildList = () => {
 }
 
 const start = async (param) => {
-	if(buildLen === buildIndex){        // 判断楼盘下标边界
+	if (buildLen === buildIndex) {        // 判断楼盘下标边界
 		page++
-		if(canLoad){                    // 判断单个城市下的楼盘数量抓取边界
+		if (canLoad) {                    // 判断单个城市下的楼盘数量抓取边界
 			getBuildList()
 			return
-		}else{
+		} else {
 			cityIndex++
-			if(cityIndex === cityLen){      // 判断单个城市抓取完毕边界
+			if (cityIndex === cityLen) {      // 判断单个城市抓取完毕边界
 				return console.log('抓取完一页数据')
-			}else{
+			} else {
 				canLoad = true
 				page = 0
 				getBuildList()
@@ -78,7 +84,7 @@ const start = async (param) => {
 	}
 	let data = param
 	downloadImg(data.preload_detail_image[0].image_size_url).then(async imgResult => {
-		console.log(imgResult)
+		// console.log(imgResult)
 		let insertData = {
 			name: data.title,
 			city_id: data.city_id,
@@ -95,21 +101,18 @@ const start = async (param) => {
 			house_type: data.house_type,        // 多对多关系模型  =>   房子类型  [办公楼，住宅]
 			decoration: data.decoration         // 多对多关系模型  =>   装修类型  [毛坯，精装]
 		}
-		const build = await BuildModel.create(insertData);
-		let buildId = build.dataValues.id;
+		// const build = await BuildModel.create(insertData);
+		// let buildId = build.dataValues.id;
 		// console.log(`获取楼盘添加后返回的ID => ${buildId}, 正在抓取的城市ID为 => ${cityList[cityIndex]}`)
-		getDetail({
-			project_name: data.project_name,
-			build_id: buildId
-		}).then(res => {
+		getDetail(insertData).then(res => {
 			console.log('抓取详情页数据成功!!!!!!!!!!!!!')
-			// buildIndex++
-			// start(buildList[buildIndex])
 		}).catch(err => {
-			console.log()
+			console.log(err, '抓取详情页数据成功-----------------')
 		})
+		buildIndex++
+		start(buildList[buildIndex])
 	}).catch(() => {
-		console.log(`抓取图片失败, 放弃一条数据 ----------`)
+		console.log(`抓取图片失败, 放弃一条数据 ----------112`)
 	})
 }
 
@@ -121,19 +124,36 @@ const getDetail = (OBJ) => {
 			method: "GET",
 			json: true
 		}).then(async res => {
-			// console.log(`返回的抓取到的详情页数据`, res, Url)
-			let _frame = res.data.data['frame']
-			for(let i = 0,len = _frame.length;i < len;i++) {
-				await createFrame(_frame[i], OBJ.build_id)
-			}
+			// 获取楼盘banner  =>  之后添加楼盘
 			let banner = res.data.data.header_img.list
 			let bannerData = []
-			for(let i = 0,len = banner.length;i < len;i++){
+			for (let i = 0, len = banner.length; i < len; i++) {
 				await downloadImg(banner[i].image_size_url).then(async imgResult => {
-					bannerData.push(imgResult.imgUr)
+					bannerData.push(imgResult.imgUrl)
 				}).catch(() => {
 					console.log(`抓取楼盘的banner图片失败, 放弃一条数据 ----------`)
 				})
+			}
+			OBJ.banner = JSON.stringify(bannerData)
+			// console.log(OBJ, 'bannerData')
+			// 添加楼盘数据
+			const build = await BuildModel.create(OBJ);
+			let buildId = build.dataValues.id;  // 添加楼盘产生楼盘ID  ->  下面步骤通用
+			// 添加楼盘类型 关系表
+			await createType(OBJ.house_type, buildId);
+			// 添加楼盘装修进度 关系表
+			await createDecoration(OBJ.decoration, buildId);
+			// 抓取楼盘的户型  =>  需要先添加楼盘
+			let _frame = res.data.data['frame'];
+			for (let i = 0, len = _frame.length; i < len; i++) {
+				await createFrame(_frame[i], buildId)
+			}
+			//获取楼盘所属标签  =>  需要先添加看楼盘
+			let tags = res.data.data.base_info.tags
+			for(let i = 0,len = tags.length;i< len;i++){
+				if(tagsList.includes(tags[i])){
+					await createTags(tags[i], buildId)
+				}
 			}
 			resolve()
 		}).catch(err => {
@@ -144,15 +164,15 @@ const getDetail = (OBJ) => {
 }
 
 const createFrame = (_frameData, build_id) => {
-	console.log(_frameData.images[0].image_url,'---------------')
+	// console.log(_frameData.images[0].image_url, '---------------')
 	return new Promise((resolve, reject) => {
 		// 户型的预览图 需要添加接口传来的图片高宽参数 => .宽x高.jpg
 		let imgWidth = _frameData.images[0].src_img_size.width;
 		let imgHeight = _frameData.images[0].src_img_size.height;
 		let realImg = `${_frameData.images[0].image_url}.${imgWidth}x${imgHeight}.png`
 
-		downloadImg(realImg).then( imgResult => {
-			console.log(imgResult)
+		downloadImg(realImg).then(imgResult => {
+			// console.log(imgResult)
 			let frameData = {
 				name: _frameData.frame_name,
 				project_name: _frameData.project_name,
@@ -170,17 +190,51 @@ const createFrame = (_frameData, build_id) => {
 			}).catch(() => {
 				reject()
 			});
-			resolve()
+			// resolve()
 		}).catch(() => {
-			console.log(`图片失败, 弃一条数据 ----------`)
+			console.log(`抓取图片失败, 弃一条数据 ----------`)
 			reject()
 		})
 	})
 }
 
-const createTags = () => {
+const createTags = async (list, buildId) => {
 	// 判断标签是否存在
-	let
+	let tags = list
+	let TAGS = await TagsModel.findAll({
+		where: { title: tags },
+		attributes:['id']
+	})
+	let BuildTagsData = {
+		tags_id: TAGS[0].dataValues.id,
+		build_id: buildId
+	}
+	await BuildTagsModel.create(BuildTagsData)
+	// console.log(TAGS[0].dataValues.id, tags)
+}
+
+const createType = async (type, buildId) => {
+	let TAGS = await HouseTypeModel.findAll({
+		where: { name: type },
+		attributes:['id']
+	})
+	let BuildTypeData = {
+		house_type_id: TAGS[0].dataValues.id,
+		build_id: buildId
+	}
+	await BuildTypeModel.create(BuildTypeData)
+}
+
+const createDecoration = async (type, buildId) => {
+	let TAGS = await DecorationModel.findAll({
+		where: { name: type },
+		attributes:['id']
+	})
+	let BuildDecorationData = {
+		decoration_id: TAGS[0].dataValues.id,
+		build_id: buildId
+	}
+	await BuildDecorationModel.create(BuildDecorationData)
 }
 
 getBuildList()

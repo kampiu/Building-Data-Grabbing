@@ -1,21 +1,17 @@
 const Sequelize = require('sequelize')
 const sequelize = require('./sequelize')
 
-const HouseTypeModel = sequelize.define(
-	'rea_house_type',
+const BuildTypeModel = sequelize.define(
+	'rea_building_house_type',
 	{
-		id: {
+		build_id: {
 			type: Sequelize.INTEGER(11),
 			primaryKey: true,
 			unique: true,
-			autoIncrement: true
 		},
-		name: {
+		house_type_id: {
 			type: Sequelize.CHAR(20),
-			allowNull: false
-		},
-		color: {
-			type: Sequelize.CHAR(20),
+			primaryKey: true,
 			allowNull: false
 		}
 	}, {
@@ -25,4 +21,4 @@ const HouseTypeModel = sequelize.define(
 	}
 )
 
-module.exports = HouseTypeModel
+module.exports = BuildTypeModel

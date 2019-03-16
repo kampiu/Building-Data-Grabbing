@@ -64,15 +64,15 @@ const getImgType = img => {
 	try {
 		let newImg = '';
 		let type = '';
-		if(img.indexOf('.png') !== -1){
-			newImg = img.slice(0, img.indexOf('.png') + 4)
-			type = 'png'
-		}else if(img.indexOf('.jpg') !== -1){
-			newImg = img.slice(0, img.indexOf('.jpg') + 4)
-			type = 'jpg'
-		}else{
+		// if(img.indexOf('.png') !== -1){
+		// 	newImg = img.slice(0, img.indexOf('.png') + 4)
+		// 	type = 'png'
+		// }else if(img.indexOf('.jpg') !== -1){
+		// 	newImg = img.slice(0, img.indexOf('.jpg') + 4)
+		// 	type = 'jpg'
+		// }else{
 			newImg = img
-		}
+		// }
 		// 强制转http
 		let _httpIndex = newImg.indexOf('://');
 		newImg = newImg.slice(_httpIndex + 3, newImg.length)
